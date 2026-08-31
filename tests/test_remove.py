@@ -75,13 +75,18 @@ def test_remove():
 
 
 def test_remove_heic():
-    """HEIC/HEIF input is decoded via pillow-heif and produces the same
-    cutout as the equivalent JPEG."""
+    """remove() decodes HEIF/HEIC input bytes; the cutout is a perceptual
+    match to the same image supplied as JPEG (the HEIF re-encode is lossy)."""
     jpg_bytes = (here / "fixtures" / "anime-girl-1.jpg").read_bytes()
 
     heic_buffer = BytesIO()
     Image.open(BytesIO(jpg_bytes)).convert("RGB").save(heic_buffer, format="HEIF")
     heic_bytes = heic_buffer.getvalue()
+
+    jpg_img = Image.open(BytesIO(jpg_bytes))
+    heic_img = Image.open(BytesIO(heic_bytes))
+    assert heic_img.format == "HEIF"
+    assert heic_img.size == jpg_img.size
 
     session = new_session("u2netp")
 

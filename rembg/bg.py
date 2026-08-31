@@ -21,16 +21,7 @@ except ImportError:
 
 from PIL import Image, ImageOps
 from PIL.Image import Image as PILImage
-
-try:
-    from pillow_heif import register_heif_opener
-
-    # Teach Pillow to open HEIF/HEIC files (e.g. iPhone photos) so they can be
-    # passed to `remove` like any other format.
-    register_heif_opener()
-except ImportError:
-    pass
-
+from pillow_heif import register_heif_opener
 from pymatting.alpha.estimate_alpha_cf import estimate_alpha_cf
 from pymatting.foreground.estimate_foreground_ml import estimate_foreground_ml
 from pymatting.util.util import stack_images
@@ -43,6 +34,9 @@ from .sessions import sessions, sessions_names, sessions_names_downloadable
 from .sessions.base import BaseSession
 
 ort.set_default_logger_severity(3)
+
+# Let Pillow's Image.open() decode HEIF/HEIC files.
+register_heif_opener()
 
 kernel = disk(1)
 

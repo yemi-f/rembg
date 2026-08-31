@@ -93,6 +93,8 @@ pip install "rembg[rocm,cli]" # for library + cli
 
 After installation, you can use rembg by typing `rembg` in your terminal.
 
+> **Input formats:** image files are decoded with Pillow, so `rembg i`, `p`, and `s` accept PNG, JPEG, WebP, TIFF, BMP, and HEIF/HEIC.
+
 The `rembg` command has these subcommands:
 
 - `i` - single files
@@ -138,12 +140,6 @@ rembg i path/to/input.png
 ```
 
 If `stdout` is redirected (e.g. `rembg i input.png > out.png`), the output is written to `stdout` instead.
-
-**HEIF/HEIC input** (e.g. iPhone photos) is supported out of the box via `pillow-heif`:
-
-```shell
-rembg i path/to/photo.heic path/to/output.png
-```
 
 **Specify a model:**
 
