@@ -139,6 +139,12 @@ rembg i path/to/input.png
 
 If `stdout` is redirected (e.g. `rembg i input.png > out.png`), the output is written to `stdout` instead.
 
+**HEIF/HEIC input** (e.g. iPhone photos) is supported out of the box via `pillow-heif`:
+
+```shell
+rembg i path/to/photo.heic path/to/output.png
+```
+
 **Specify a model:**
 
 ```shell

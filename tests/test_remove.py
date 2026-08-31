@@ -72,3 +72,20 @@ def test_remove():
                 print(f"FAILURE: Saved comparison images to {failures_dir}")
 
             assert actual_hash == expected_hash
+
+
+def test_remove_heic():
+    """HEIC/HEIF input is decoded via pillow-heif and produces the same
+    cutout as the equivalent JPEG."""
+    jpg_bytes = (here / "fixtures" / "anime-girl-1.jpg").read_bytes()
+
+    heic_buffer = BytesIO()
+    Image.open(BytesIO(jpg_bytes)).convert("RGB").save(heic_buffer, format="HEIF")
+    heic_bytes = heic_buffer.getvalue()
+
+    session = new_session("u2netp")
+
+    from_jpg = hash_img(Image.open(BytesIO(remove(jpg_bytes, session=session))))
+    from_heic = hash_img(Image.open(BytesIO(remove(heic_bytes, session=session))))
+
+    assert from_jpg - from_heic <= 4
